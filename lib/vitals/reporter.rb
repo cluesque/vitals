@@ -41,6 +41,7 @@ module Vitals
 
 				call_stack = Rails.backtrace_cleaner.clean(caller[2..-1])
 				if args[4][:name].nil?
+					ap call_stack.first
 					name = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
 				else
 					if call_stack.empty?
