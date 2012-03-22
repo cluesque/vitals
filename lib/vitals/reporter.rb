@@ -29,10 +29,10 @@ module Vitals
 #				ap args
 				ap "*" * 80
 				Rails.backtrace_cleaner.clean(caller[2..-1]).each { |l| ap l}
-				ap "*" * 80
-				Rails.backtrace_cleaner.clean(caller[-1]).each { |l| ap l}
-				ap "*" * 80
-				Rails.backtrace_cleaner.clean(caller[2]).each { |l| ap l}
+				#ap "*" * 80
+				#Rails.backtrace_cleaner.clean(caller[-1]).each { |l| ap l}
+				#ap "*" * 80
+				#Rails.backtrace_cleaner.clean(caller[2]).each { |l| ap l}
 			elsif args.first == "render_partial.action_view"
 				ap File.basename(args[4][:identifier].gsub(".", "_"))
 			else
