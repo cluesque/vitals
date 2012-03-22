@@ -39,12 +39,17 @@ module Vitals
 			elsif args.first == "sql.active_record"
 				return if args[4][:name] == "SCHEMA"
 
+				call_stack = Rails.backtrace_cleaner.clean(caller[2..-1])
 				if args[4][:name].nil?
-					ap Rails.backtrace_cleaner.clean(caller[2..-1]).first
+					name = call_stack.first.scan(/`.*'/)
 				else
-					Rails.backtrace_cleaner.clean(caller[2..-1]).each { |l| ap l}
+					if call_stack.nil?
+						name = args[4][:name].gsub(" Load", ".find")
+					else
+						name = call_stack.first.scan(/`.*'/)
+					end
 				end
-				ap args[4][:name]
+				ap name
 				ap args[4][:sql]
 			elsif args.first == "render_partial.action_view"
 				name = File.basename(args[4][:identifier].gsub(".", "_"))
