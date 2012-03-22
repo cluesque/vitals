@@ -17,16 +17,24 @@ module Vitals
     def report!(args)
 			if args.first == "process_action.action_controller"
 				ap "CONTROLLER IS FINITO"
-				ap args[4]
+				#ap args[4]
+				ap args[4][:controller]
+				ap args[4][:action]
+				ap args[4][:status]
+				ap args[4][:view_runtime]
+				ap args[4][:db_runtime]
 			elsif args.first == "sql.active_record"
+				return if args[4][:name] == "SCHEMA"
 				ap "DAS querize!"
-				ap args
-			elsif args.first == "partial.action_view"
+				#ap args[4]
+				ap args[4][:name]
+				ap args[4][:sql]
+			elsif args.first == "render_partial.action_view"
 				ap "MIS VIEWS"
-				ap args[4]
+				#ap args[4]
+				ap args[4][:identifier].gsub(".", "_")
 			else
-				ap "OTHRE"
-				ap args			
+				return
 			end		
 		
       delta = args[2] - args[1]
