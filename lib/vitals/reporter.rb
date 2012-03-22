@@ -24,9 +24,13 @@ module Vitals
 				ap "db_runtime: #{args[4][:db_runtime]}ms"
 			elsif args.first == "sql.active_record"
 				return if args[4][:name] == "SCHEMA"
+				if args[4][:name].nil?
+					ap Rails.backtrace_cleaner.clean(caller[2..-1]).first
+				else
+					Rails.backtrace_cleaner.clean(caller[2..-1]).each { |l| ap l}
+				end
 				ap args[4][:name]
 				ap args[4][:sql]
-				Rails.backtrace_cleaner.clean(caller[2..-1]).each { |l| ap l}
 			elsif args.first == "render_partial.action_view"
 				ap File.basename(args[4][:identifier].gsub(".", "_"))
 			else
