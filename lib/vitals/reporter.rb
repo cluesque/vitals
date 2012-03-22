@@ -43,7 +43,7 @@ module Vitals
 				if args[4][:name].nil?
 					name = call_stack.first.scan(/`.*'/)
 				else
-					if call_stack.nil?
+					if call_stack.empty?
 						name = args[4][:name].gsub(" Load", ".find")
 					else
 						name = call_stack.first.scan(/`.*'/)
