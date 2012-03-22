@@ -18,6 +18,7 @@ module Vitals
 			ap args
       delta = args[2] - args[1]
       delta = (delta > 0) ? delta : 0
+			ap delta
       @stats.timing(args[0], delta)
     end
   end
