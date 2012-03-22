@@ -14,32 +14,31 @@ module Vitals
       # protecting its socket.
       @stats = Statsd.new(host, port)
     end
+
     def report!(args)
 			if args.first == "process_action.action_controller"
 				ap "CONTROLLER IS FINITO"
-				#ap args[4]
-				ap args[4][:controller]
-				ap args[4][:action]
+				ap "#{args[4][:controller]}.#{args[4][:action]}"
 				ap args[4][:status]
-				ap args[4][:view_runtime]
-				ap args[4][:db_runtime]
+				ap "#{args[4][:view_runtime]}ms"
+				ap "#{args[4][:db_runtime]}ms"
 			elsif args.first == "sql.active_record"
 				return if args[4][:name] == "SCHEMA"
 				ap "DAS querize!"
-				#ap args[4]
 				ap args[4][:name]
 				ap args[4][:sql]
+				ap args
 			elsif args.first == "render_partial.action_view"
 				ap "MIS VIEWS"
-				#ap args[4]
-				ap args[4][:identifier].gsub(".", "_")
+				ap File.basename(args[4][:identifier].gsub(".", "_"))
 			else
+				ap args.first
 				return
 			end		
 		
       delta = args[2] - args[1]
       delta = (delta > 0) ? delta : 0
-			ap delta
+			ap "#{delta}s"
 
       @stats.timing(args[0], delta)
     end
