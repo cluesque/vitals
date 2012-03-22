@@ -15,6 +15,7 @@ module Vitals
       @stats = Statsd.new(host, port)
     end
     def report!(args)
+			ap args
       delta = args[2] - args[1]
       delta = (delta > 0) ? delta : 0
       @stats.timing(args[0], delta)
