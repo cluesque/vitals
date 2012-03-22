@@ -44,21 +44,6 @@ module Vitals
         method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
         name = "#{classname}.#{method}"
       end
-      #if args[4][:name].nil?
-      #  #classname = File.basename(call_stack.first.split(":").first.gsub(".rb", "").gsub(".", "_"))
-      #  method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
-      #
-      #  name = "#{classname}.#{method}"
-      #else
-      #  if call_stack.empty?
-      #    name = args[4][:name].gsub(" Load", ".find")
-      #  else
-      #    #classname = File.basename(call_stack.first.split(":").first.gsub(".rb", "").gsub(".", "_"))
-      #    method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
-      #
-      #    name = "#{classname}.#{method}"
-      #  end
-      #end
 
       @stats.timing("#{get_metric_prefix}.#{name}", calculate_delta(args))
     end
