@@ -61,6 +61,8 @@ module Vitals
     end
 
     def report!(args)
+      return if Rails.env.production?
+      
       case args.first
         when "process_action.action_controller"
           metrics_for_controllers args
