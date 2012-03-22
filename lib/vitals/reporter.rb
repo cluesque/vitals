@@ -26,12 +26,14 @@ module Vitals
 				return if args[4][:name] == "SCHEMA"
 				ap args[4][:name]
 				ap args[4][:sql]
-				ap args
+#				ap args
+				ap caller[2]
+				ap called[2..-1]
 				ap Rails.backtrace_cleaner.clean(caller[2..-1]).first
 			elsif args.first == "render_partial.action_view"
 				ap File.basename(args[4][:identifier].gsub(".", "_"))
 			else
-				ap args.first
+				#ap args.first
 				return
 			end		
 		
