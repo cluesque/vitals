@@ -35,10 +35,12 @@ module Vitals
 			elsif args.first == "sql.active_record"
 				return if args[4][:name] == "SCHEMA"
 
+        name = ""
 				call_stack = Rails.backtrace_cleaner.clean(caller[2..-1])
 				if args[4][:name].nil?
 					classname = File.basename(call_stack.first.split(":").first.gsub(".rb", "").gsub(".", "_"))
 					method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
+
 					name = "#{classname}.#{method}"
 				else
 					if call_stack.empty?
@@ -46,24 +48,20 @@ module Vitals
 					else
 						classname = File.basename(call_stack.first.split(":").first.gsub(".rb", "").gsub(".", "_"))
 						method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
+
 						name = "#{classname}.#{method}"
 					end
 				end
-				puts "#{get_metric_prefix}.#{name}"
 			elsif args.first == "render_partial.action_view"
 				name = File.basename(args[4][:identifier].gsub(".", "_"))
-
-				puts "#{get_metric_prefix}.#{name}"
 			else
 				return
 			end		
 		
       delta = args[2] - args[1]
       delta = (delta > 0) ? delta : 0
-			ap delta
-			ap "*" * 80
 
-      @stats.timing(args[0], delta)
+      @stats.timing("#{get_metric_prefix}.#{name}", delta)
     end
   end
 end
