@@ -41,18 +41,20 @@ module Vitals
 
 				call_stack = Rails.backtrace_cleaner.clean(caller[2..-1])
 				if args[4][:name].nil?
-					ap File.basename(call_stack.first.split(":").first.gsub(".", "_"))
-					name = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
+					classname = File.basename(call_stack.first.split(":").first.gsub(".rb", "").gsub(".", "_"))
+					method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
+					name = "#{classname}.#{method}"
 				else
 					if call_stack.empty?
 						name = args[4][:name].gsub(" Load", ".find")
 					else
-						ap call_stack.first
-						name = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
+						classname = File.basename(call_stack.first.split(":").first.gsub(".rb", "").gsub(".", "_"))
+						method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
+						name = "#{classname}.#{method}"
 					end
 				end
 				ap name
-				ap args[4][:sql]
+				#ap args[4][:sql]
 			elsif args.first == "render_partial.action_view"
 				name = File.basename(args[4][:identifier].gsub(".", "_"))
 
