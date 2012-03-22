@@ -27,9 +27,7 @@ module Vitals
 				ap args[4][:name]
 				ap args[4][:sql]
 				ap args
-				Rails.backtrace_cleaner.clean(caller[2..-1]).each do |line|
-					ap line
-				end
+				ap Rails.backtrace_cleaner.clean(caller[2..-1]).first
 			elsif args.first == "render_partial.action_view"
 				ap File.basename(args[4][:identifier].gsub(".", "_"))
 			else
