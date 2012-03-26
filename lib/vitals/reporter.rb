@@ -29,17 +29,17 @@ module Vitals
       return if report_parser.nil?
 
       if report_parser.is_controller?
-        @stats.increment "#{get_metric_prefix}.#{report_parser.name}.response.#{report_parser.http_response}"
-        @stats.timing "#{get_metric_prefix}.#{report_parser.name}.view", report_parser.view_runtime
-        @stats.timing "#{get_metric_prefix}.#{report_parser.name}.db", report_parser.db_runtime
-        @stats.timing "#{get_metric_prefix}.#{report_parser.name}.action", report_parser.calculate_delta
+        @stats.increment "#{get_metric_prefix}.controllers.#{report_parser.name}.response.#{report_parser.http_response}"
+        @stats.timing "#{get_metric_prefix}.controllers.#{report_parser.name}.view", report_parser.view_runtime
+        @stats.timing "#{get_metric_prefix}.controllers.#{report_parser.name}.db", report_parser.db_runtime
+        @stats.timing "#{get_metric_prefix}.controllers.#{report_parser.name}.action", report_parser.calculate_delta
 
       elsif report_parser.is_model?
 
-        @stats.timing "#{get_metric_prefix}.#{report_parser.name}", report_parser.calculate_delta
+        @stats.timing "#{get_metric_prefix}.models.#{report_parser.name}", report_parser.calculate_delta
 
       elsif report_parser.is_view?
-        @stats.timing "#{get_metric_prefix}.#{report_parser.name}", report_parser.calculate_delta
+        @stats.timing "#{get_metric_prefix}.views.#{report_parser.name}", report_parser.calculate_delta
       end
     end
 
