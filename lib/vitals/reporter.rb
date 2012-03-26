@@ -15,12 +15,26 @@ module Vitals
       @stats = Statsd.new(host, port)
     end
 
+    def report!(args)
+      delta = args[2] - args[1]
+      delta = (delta > 0) ? delta : 0
+      @stats.timing(args[0], delta)
+    end
+  end
+
+  class DetailedReporter
+    def initialize host, port
+      # note: multi threading depends on Statsd's capability for
+      # protecting its socket.
+      @stats = Statsd.new(host, port)
+    end
+
     def get_metric_prefix
       "#{ENV['COMPANY']}.#{ENV['PRODUCT']}.#{ENV['ENV']}.#{ENV['RELEASE']}.metrics"
     end
 
     def report!(args)
-      @report_parser = Reporter::ArghParser.new args
+      @report_parser = DetailedReporter::ArghParser.new args
 
       push_to_statsd @report_parser
     end
