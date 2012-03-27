@@ -1,4 +1,5 @@
 require 'statsd'
+require 'statsd_helper'
 
 module Vitals
   class NullReporter
@@ -30,7 +31,7 @@ module Vitals
     end
 
     def get_metric_prefix
-      "#{ENV['COMPANY']}.#{ENV['PRODUCT']}.#{ENV['ENV']}.#{ENV['RELEASE']}.metrics"
+			::StatsdHelper::Metric.standard_prefix
     end
 
     def report!(args)

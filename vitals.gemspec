@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.1.0"
   s.add_dependency "statsd-ruby"
-  s.add_development_dependency "sqlite3"
+  s.add_dependency "statsd_helper"
+  
+	s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec"
 end
