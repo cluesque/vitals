@@ -8,7 +8,7 @@ module Vitals
     config.vitals.enabled = true
     config.vitals.host = 'localhost'
     config.vitals.port = 8125
-		config.vitals.type = :normal
+		config.vitals.type = 'normal'
 
     initializer "vitals.configure" do |app|
       Vitals.configure(app.config.vitals.host, app.config.vitals.port, app.config.vitals.type) if app.config.vitals.enabled
@@ -28,11 +28,11 @@ module Vitals
     @reporter.report!(args)
   end
 
-  def self.configure(host, port, type = :normal)
+  def self.configure(host, port, type = 'normal')
 		case type
-		when :normal
+		when 'normal'
     	@reporter = Reporter.new(host, port)
-		when :detailed
+		when 'detailed'
 			@reporter = DetailedReporter.new(host, post)
 		else
 			@reporter = NullReporter.new

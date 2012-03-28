@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vitals (0.0.2.3)
+    vitals (0.0.2.6)
       rails (~> 3.1.0)
       statsd-ruby
       statsd_helper

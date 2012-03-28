@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class TasksControllerTest < ActionController::TestCase
-  setup do
+	fixtures :all
+
+	setup do
     @task = tasks(:one)
   end
 
