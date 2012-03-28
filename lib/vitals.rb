@@ -11,6 +11,8 @@ module Vitals
 		config.vitals.type = 'normal'
 
     initializer "vitals.configure" do |app|
+			puts config.vitals
+			puts app.config.vitals
       Vitals.configure(app.config.vitals.host, app.config.vitals.port, app.config.vitals.type) if app.config.vitals.enabled
     end
 
@@ -29,12 +31,19 @@ module Vitals
   end
 
   def self.configure(host, port, type = 'normal')
+		puts host
+		puts port
+		puts type
+		
 		case type
 		when 'normal'
+			puts 'when normal'
     	@reporter = Reporter.new(host, port)
 		when 'detailed'
+			puts 'when detailed'
 			@reporter = DetailedReporter.new(host, post)
 		else
+			puts 'when neither'
 			@reporter = NullReporter.new
 		end
   end
