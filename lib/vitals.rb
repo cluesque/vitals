@@ -1,5 +1,5 @@
 require 'active_support/notifications'
-require 'vitals/reporter'
+require 'vitals/reporters'
 
 module Vitals
   class Engine < Rails::Engine
@@ -8,12 +8,10 @@ module Vitals
     config.vitals.enabled = true
     config.vitals.host = 'localhost'
     config.vitals.port = 8125
-		config.vitals.type = 'normal'
+		config.vitals.reporter = 'reporter'
 
     initializer "vitals.configure" do |app|
-			puts config.vitals
-			puts app.config.vitals
-      Vitals.configure(app.config.vitals.host, app.config.vitals.port, app.config.vitals.type) if app.config.vitals.enabled
+      Vitals.configure(app.config.vitals.host, app.config.vitals.port, app.config.vitals.reporter) if app.config.vitals.enabled
     end
 
     initializer "vitals.subscribe" do |app|
@@ -30,21 +28,7 @@ module Vitals
     @reporter.report!(args)
   end
 
-  def self.configure(host, port, type = 'normal')
-		puts host
-		puts port
-		puts type
-		
-		case type
-		when 'normal'
-			puts 'when normal'
-    	@reporter = Reporter.new(host, port)
-		when 'detailed'
-			puts 'when detailed'
-			@reporter = DetailedReporter.new(host, post)
-		else
-			puts 'when neither'
-			@reporter = NullReporter.new
-		end
+  def self.configure(host, port, reporter = 'reporter')
+		@reporter = Vitals.const_get(reporter.titleize.gsub(' ', '')).new(host, port)		
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'rails'
-require "#{File.dirname(__FILE__)}/../lib/vitals/reporter"
+require "#{File.dirname(__FILE__)}/../lib/vitals/reporters"
 
 module Vitals
   describe DetailedReporter do
