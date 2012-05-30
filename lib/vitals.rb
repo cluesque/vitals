@@ -12,6 +12,7 @@ module Vitals
 
     initializer "vitals.configure" do |app|
       Vitals.configure(app.config.vitals.host, app.config.vitals.port, app.config.vitals.reporter) if app.config.vitals.enabled
+      Vitals.reporter.prefix = config.vitals.prefix if Vitals.reporter.respond_to?(:prefix=) && config.vitals.prefix
     end
 
     initializer "vitals.subscribe" do |app|
@@ -23,6 +24,10 @@ module Vitals
 
 
   @reporter = NullReporter.new
+
+  def self.reporter
+    @reporter
+  end
 
   def self.report!(args)
     @reporter.report!(args)
