@@ -1,11 +1,20 @@
 require 'statsd'
 
+class FakeStatsd
+  def increment(name)
+    puts "statsd.increment #{name}"
+  end
+  def timing(name, time)
+    puts "statsd.timing #{time} #{name}"
+  end
+end
 module Vitals
   class DetailedReporter
     def initialize host, port
       # note: multi threading depends on Statsd's capability for
       # protecting its socket.
-      @stats = Statsd.new(host, port)
+      # @stats = Statsd.new(host, port)
+      @stats = FakeStatsd.new
     end
 
     def prefix=(prefix)
