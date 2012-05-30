@@ -172,7 +172,11 @@ module Vitals
           @name = model_basename.gsub(" Load", ".find")
         else
           classname = File.basename(call_stack.first.split(":").first.gsub(".rb", "").gsub(".", "_"))
-          method = call_stack.first.scan(/`.*'/).first.gsub("`","").gsub("'","").gsub(" ","_")
+          method = if (parts = call_stack.first.scan(/`.*'/)) && parts.present?
+            parts.first.gsub("`","").gsub("'","").gsub(" ","_")
+          else
+            call_stack.first.split(":").last
+          end
           @name = "#{classname}.#{method}"
         end
 
